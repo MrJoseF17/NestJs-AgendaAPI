@@ -10,8 +10,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     username:   process.env.RDS_USERNAME || dbConfig.username,
     password:   process.env.RDS_PASSWORD || dbConfig.password,
     database:   process.env.RDS_DB_NAME || dbConfig.database,
-    entities:   process.env.TYPEORM_SYNC || [__dirname + '/../**/*.entity.{js,ts}'],
+    entities:   [__dirname + '/../**/*.entity.{js,ts}'],
 
     // NOT RECOMENDED FOR PRODUCTION ENV
-    synchronize: dbConfig.synchronize
+    synchronize: process.env.TYPEORM_SYNC || dbConfig.synchronize
 };
