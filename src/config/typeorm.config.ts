@@ -1,14 +1,17 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import * as config from 'config';
+
+const dbConfig = config.get('db');
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
-    type:  'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: '',
-    database: 'nest_agenda_app',
-    entities: [__dirname + '/../**/*.entity.{js,ts}'],
+    type:       dbConfig.type,
+    host:       process.env.RDS_HOSTNAME || dbConfig.host,
+    port:       process.env.RDS_PORT || dbConfig.port,
+    username:   process.env.RDS_USERNAME || dbConfig.username,
+    password:   process.env.RDS_PASSWORD || dbConfig.password,
+    database:   process.env.RDS_DB_NAME || dbConfig.database,
+    entities:   process.env.TYPEORM_SYNC || [__dirname + '/../**/*.entity.{js,ts}'],
 
     // NOT RECOMENDED FOR PRODUCTION ENV
-    synchronize: true
+    synchronize: dbConfig.synchronize
 };
